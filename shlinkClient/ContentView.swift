@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  shlinkClient
-//
-//  Created by Howard Wu on 2025/4/4.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -12,6 +5,7 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     @StateObject private var dataService = DataService()
+    @State private var server = ""
     
     var body: some View {
         NavigationStack {
@@ -23,6 +17,17 @@ struct ContentView: View {
                     Text("Error: \(error)")
                         .foregroundColor(.red)
                         .padding()
+
+                        Divider()
+                         TextField(
+                            "Input Server Domain",
+                            text: $server
+                        ).onSubmit{
+                            dataService.fetchHealthData(url: server) 
+                        }.textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .border(.secondary)
+
                 } else if let status = dataService.healthStatus {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Status: \(status.status)")
@@ -32,7 +37,16 @@ struct ContentView: View {
                         }
                         
                         Divider()
-                        
+                        TextField(
+                            "Input Server Domain",
+                            text: $server
+                        ).onSubmit{
+                            dataService.fetchHealthData(url: server) 
+                        }.textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .border(.secondary)
+
+                        Divider()
                         // Also show your existing items
                         List {
                             ForEach(items) { item in
@@ -51,7 +65,9 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        dataService.fetchHealthData()
+                     if server.isEmpty {
+                    dataService.fetchHealthData(url: server)
+            }  
                     }) {
                         Label("Refresh", systemImage: "arrow.clockwise")
                     }
@@ -64,14 +80,14 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            dataService.fetchHealthData()
+            if server.isEmpty {
+                dataService.fetchHealthData(url: server)
+            }  
         }
     }
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
         }
     }
 
@@ -82,9 +98,4 @@ struct ContentView: View {
             }
         }
     }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }

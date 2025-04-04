@@ -16,8 +16,8 @@ class DataService: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    func fetchHealthData() {
-        guard let url = URL(string: "https://yhw.tw/rest/health") else {
+    func fetchHealthData(url: String) {
+        guard let url = URL(string: url) else {
             self.errorMessage = "Invalid URL"
             return
         }
