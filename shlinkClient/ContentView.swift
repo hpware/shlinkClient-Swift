@@ -11,22 +11,50 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
-
+    @StateObject private var dataService = DataService()
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        NavigationStack {
+            VStack {
+                if dataService.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                } else if let error = dataService.errorMessage {
+                    Text("Error: \(error)")
+                        .foregroundColor(.red)
+                        .padding()
+                } else if let status = dataService.healthStatus {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Status: \(status.status)")
+                            .font(.headline)
+                        if let version = status.version {
+                            Text("Version: \(version)")
+                        }
+                        
+                        Divider()
+                        
+                        // Also show your existing items
+                        List {
+                            ForEach(items) { item in
+                                Text(item.timestamp.formatted())
+                            }
+                            .onDelete(perform: deleteItems)
+                        }
                     }
+                    .padding()
+                } else {
+                    Text("Tap Refresh to check the service status")
+                        .padding()
                 }
-                .onDelete(perform: deleteItems)
             }
+            .navigationTitle("Shlink Health")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                    Button(action: {
+                        dataService.fetchHealthData()
+                    }) {
+                        Label("Refresh", systemImage: "arrow.clockwise")
+                    }
                 }
                 ToolbarItem {
                     Button(action: addItem) {
@@ -34,8 +62,9 @@ struct ContentView: View {
                     }
                 }
             }
-        } detail: {
-            Text("Select an item")
+        }
+        .onAppear {
+            dataService.fetchHealthData()
         }
     }
 
