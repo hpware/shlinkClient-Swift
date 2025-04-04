@@ -3,7 +3,6 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
     @Query private var servers: [Server]
     @StateObject private var dataService = DataService()
     @State private var newServer = ""
@@ -21,6 +20,7 @@ struct ContentView: View {
                     )
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
+                    .onSubmit(addServer)
                 Button(action: addServer) {
                     Image(systemName: "plus.circle.fill")
                 }
@@ -46,14 +46,39 @@ struct ContentView: View {
                     }
                 }
             }
+            }.onAppear{
+                print("Number of servers: \(servers.count)");
+                servers.forEach { server in 
+                print("Server URL: \(server.url)")}
             }
     }
 
     private func addServer() {
         withAnimation {
+            guard !newServer.isEmpty else { return }
+            
+            // Validate URL format
+            guard let url = URL(string: newServer),
+                  url.scheme != nil,
+                  url.host != nil else {
+                // TODO: Show error to user about invalid URL
+                return
+            }
+            
             let server = Server(url: newServer)
             modelContext.insert(server)
-            newServer = ""
+            
+            do {
+                try modelContext.save()
+                newServer = ""
+                // Fetch initial health data
+                Task {
+                    await dataService.fetchHealthData(url: server.url)
+                }
+            } catch {
+                // TODO: Show error to user about save failure
+                print("Failed to save server: \(error)")
+            }
         }
     }
 
@@ -65,6 +90,7 @@ struct ContentView: View {
         }
     }
     private func refreshAll() {
+        print(servers)
         for i in servers {
             // Testing failed (I mean problem solving stuff)
             dataService.fetchHealthData(url: i.url)
@@ -74,6 +100,11 @@ struct ContentView: View {
 
 
 // This is just react functions aka pages with extra steps. (struct)
+//Swift 是一坨屎
+//Swift 是一坨屎
+//Swift 是一坨屎
+//Swift 是一坨屎
+//Swift 是一坨屎
 struct ServerStatusView: View{
         // Shit code.  Swift 是一坨屎
         /*withAnimation {

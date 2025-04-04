@@ -2,7 +2,7 @@ import SwiftData
 import Foundation
 
 @Model 
-class Server {
+final class Server {
     var url: String
     var timestamp: Date
     // Every new store stores like this 
