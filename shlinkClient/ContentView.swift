@@ -1,11 +1,29 @@
 import SwiftUI
 import SwiftData
 
+@Model 
+class Server {
+    var url: string,
+    var timestamp: Date
+    // Every new store stores like this 
+    /*
+        {
+            url: "https://yhw.tw/",
+            timestamp: (Just a date)
+        }
+    */
+    init(url: String) {
+        self.url = url
+        self.timestamp = Date()
+    }
+}
+
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
+    @Query private var servrers: [Server]
     @StateObject private var dataService = DataService()
-    @State private var server = ""
+    @State private var newserver = ""
     
     var body: some View {
         NavigationStack {
