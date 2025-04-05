@@ -138,6 +138,11 @@ struct ServerStatusView: View{
                     ProgressView()
                 //       this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
                 } else if let status = dataService.healthStatus {
+                    if status.status == "pass" {
+                        Image(systemName: "checkmark.seal.fill")
+                    } else {
+                    Image(systemName: "xmark.seal.fill")
+                    }
                     Text("Status: \(status.status)")
                     .font(.subheadline)
                     if let version = status.version {
