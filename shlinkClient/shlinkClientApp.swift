@@ -1,3 +1,5 @@
+// 👍 lgtm
+
 import SwiftUI
 import SwiftData
 
