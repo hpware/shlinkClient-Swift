@@ -1,11 +1,13 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct health2: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var servers: [Server]
     @StateObject private var dataService = DataService()
     @State private var newServer = ""
+    @State private var showError = false
+    @State private var errorMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -51,44 +53,49 @@ struct ContentView: View {
                 servers.forEach { server in 
                 print("Server URL: \(server.url)")}
             }
+            .alert("Error", isPresented: $showError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
+            }
     }
-
-    private func addServer() {
+        private func addServer() {
         withAnimation {
             guard !newServer.isEmpty else { return }
+            
             var urlString = newServer.trimmingCharacters(in: .whitespacesAndNewlines)
-            if !urlString.hasSuffix("rest/health") {
+            if !urlString.hasSuffix("/rest/health") {
                 if !urlString.hasSuffix("/") {
                     urlString += "/"
                 }
-                urlString = urlString + "rest/health"
+                urlString += "rest/health"
             }
             
-            if !urlString.hasSuffix("https://") || !urlString.hasSuffix("http://") {
+            if !urlString.contains("://") {
                 urlString = "https://" + urlString
             }
-
-            // Validate URL format
-            guard let url = URL(string: newServer),
+            
+            guard let url = URL(string: urlString),
                   url.scheme != nil,
                   url.host != nil else {
-                // TODO: Show error to user about invalid URL
+                errorMessage = "Please enter a valid server URL"
+                showError = true
                 return
             }
-            
-            let server = Server(url: newServer)
-            modelContext.insert(server)
-            
+            print(urlString)
+            let server = Server(url: urlString)
+            print(server)
+            print(server.url)
+            print(modelContext.insert(server))            
             do {
                 try modelContext.save()
                 newServer = ""
-                // Fetch initial health data
                 Task {
-                    await dataService.fetchHealthData(url: server.url)
+                    try? await dataService.fetchHealthData(url: server.url)
                 }
             } catch {
-                // TODO: Show error to user about save failure
-                print("Failed to save server: \(error)")
+                errorMessage = "Failed to save server: \(error.localizedDescription)"
+                showError = true
             }
         }
     }
@@ -116,7 +123,7 @@ struct ContentView: View {
 //Swift 是一坨屎
 //Swift 是一坨屎
 //Swift 是一坨屎
-struct ServerStatusView: View{
+struct asdad223223232: View{
         // Shit code.  Swift 是一坨屎
         /*withAnimation {
                                     Text("Status: \(server.status.status)")
