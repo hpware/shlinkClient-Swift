@@ -4,9 +4,9 @@ import SwiftData
 struct ContentView: View {
     var body: some View {
         TabView {
-            HealthPage()
+            IndexPage()
             .tabItem() {
-                Image(systemName: "bolt.heart")
+                Image(systemName: "house")
                 Text("Health")
             }
             SettingsPage()
