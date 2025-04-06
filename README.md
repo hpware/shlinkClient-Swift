@@ -1,0 +1,2 @@
+# Shlink iOS Client
+This application is built with Swift and SwiftUI. And this is also my first Swift application, so expect me to make some dumb mistakes, like with Vue and Typescript, do some dumb things with ref() in a function that is only called a few times, that could've been a const or a let
