@@ -11,10 +11,10 @@ struct SettingsPage: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Your Servers")) {
-                    VStack {
+                Section(header: Text("Your Shlink Instances")) {
+                    HStack {
                         TextField(
-                            "Your Shlink Instance",
+                            "Add a new Shlink instance",
                             text: $newURL
                         )
                         .textInputAutocapitalization(.never)
@@ -43,10 +43,10 @@ struct SettingsPage: View {
                                 }
                             }
                         }
-                    }
+                    }.onDelete(perform: deleteServers)
                 } 
-            }
-        }.navigationTitle("Settings")
+            }.navigationTitle("Settings")
+        }
     }
 
     private func createNewServer() {
@@ -54,7 +54,36 @@ struct SettingsPage: View {
             guard !newURL.isEmpty else {
                return
             }
-            var urlString = newURL.trimmingCharacters
+            var urlString = newURL.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard urlString.contains(".") else {
+                return
+            }
+            if !urlString.contains("://") {
+                urlString = "https://" + urlString
+            }
+            guard let url = URL(string: urlString),
+                url.scheme != nil,
+                url.host != nil else {
+                    return
+                }
+            
+            let server = Server(url: urlString)
+            modelContext.insert(server)
+            do {
+                try modelContext.save()
+                newURL = ""
+                Task {
+                    await rest_Health.fetchHealthData(url: server.url)
+                }
+            } catch {
+            }
+        }
+    }
+    private func deleteServers(offsets: IndexSet) {
+        withAnimation {
+            for index in offsets {
+                modelContext.delete(servers[index])
+            }
         }
     }
 }
