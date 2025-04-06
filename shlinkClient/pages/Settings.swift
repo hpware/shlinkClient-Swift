@@ -29,10 +29,10 @@ struct SettingsPage: View {
                         HStack() {
                             Text(i.url).font(.headline)
                             Spacer()
-                            if rest_Health.isLoading {
+                            if rest_Health.loadingURLs.contains(i.url)  {
                                 ProgressView()
                             // this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
-                            } else if let status = rest_Health.healthStatus {
+                            } else if let status = rest_Health.healthStatuses[i.url] {
                                 if status.status == "pass" {
                                     Image(systemName: "checkmark.seal.fill")
                                 } else {

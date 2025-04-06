@@ -61,28 +61,19 @@ struct HealthPage: View {
     private func addServer() {
         withAnimation {
             guard !newServer.isEmpty else { return }
+            // I guess the in: .whitespacesAndNewlines does the trick?
             var urlString = newServer.trimmingCharacters(in: .whitespacesAndNewlines)
-            print(urlString)
-            if !urlString.hasSuffix("rest/health") {
-                if !urlString.hasSuffix("/") {
-                    urlString += "/"
-                }
-                urlString = urlString + "rest/health"
-            }
-            
-            if !urlString.hasSuffix("https://") || !urlString.hasSuffix("http://") {
+            if !urlString.contains("://") {
                 urlString = "https://" + urlString
             }
-
-            // Validate URL format
-            guard let url = URL(string: newServer),
+            
+            guard let url = URL(string: urlString),
                   url.scheme != nil,
                   url.host != nil else {
-                // TODO: Show error to user about invalid URL
                 return
             }
             
-            let server = Server(url: newServer)
+            let server = Server(url: urlString)
             modelContext.insert(server)
             
             do {
@@ -142,10 +133,10 @@ struct ServerStatusView: View{
             // 我是眼殘 把 .leading 看成 .loading ...
             VStack(alignment: .leading) {
                 Text(server.url).font(.headline)
-                if dataService.isLoading {
+                if dataService.loadingURLs.contains(server.url) {
                     ProgressView()
                 //       this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
-                } else if let status = dataService.healthStatus {
+                } else if let status = dataService.healthStatuses[server.url] {
                     if status.status == "pass" {
                         Image(systemName: "checkmark.seal.fill")
                     } else {
