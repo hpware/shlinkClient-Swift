@@ -9,6 +9,11 @@ struct ContentView: View {
                 Image(systemName: "bolt.heart")
                 Text("Health")
             }
+            SettingsPage()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
+                }
         }
     }
 }

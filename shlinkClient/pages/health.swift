@@ -4,8 +4,9 @@ import SwiftData
 struct HealthPage: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var servers: [Server]
-    @StateObject private var dataService = DataService()
+    @StateObject private var dataService = HealthRest()
     @State private var newServer = ""
+    @State private var showAlert = false 
     
     var body: some View {
         NavigationStack {
@@ -50,13 +51,18 @@ struct HealthPage: View {
                 print("Number of servers: \(servers.count)");
                 servers.forEach { server in 
                 print("Server URL: \(server.url)")}
-            }
+            }.alert("System", isPresented: $showAlert) {
+    Button("OK", role: .cancel) { }
+} message: {
+    Text("Server Added")
+}
     }
 
     private func addServer() {
         withAnimation {
             guard !newServer.isEmpty else { return }
             var urlString = newServer.trimmingCharacters(in: .whitespacesAndNewlines)
+            print(urlString)
             if !urlString.hasSuffix("rest/health") {
                 if !urlString.hasSuffix("/") {
                     urlString += "/"
@@ -82,6 +88,8 @@ struct HealthPage: View {
             do {
                 try modelContext.save()
                 newServer = ""
+                showAlert = true
+
                 // Fetch initial health data
                 Task {
                     await dataService.fetchHealthData(url: server.url)
@@ -128,7 +136,7 @@ struct ServerStatusView: View{
                         Divider()
         }*/
         let server: Server
-        @ObservedObject var dataService: DataService
+        @ObservedObject var dataService: HealthRest
         
         var body: some View {
             // 我是眼殘 把 .leading 看成 .loading ...

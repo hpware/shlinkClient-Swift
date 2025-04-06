@@ -11,7 +11,7 @@ struct HealthStatus: Codable, Identifiable {
     }
 }
 
-class DataService: ObservableObject {
+class HealthRest: ObservableObject {
     @Published var healthStatus: HealthStatus?
     @Published var isLoading = false
     @Published var errorMessage: String?
