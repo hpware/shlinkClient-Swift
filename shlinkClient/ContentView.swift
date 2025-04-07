@@ -9,6 +9,11 @@ struct ContentView: View {
                 Image(systemName: "house")
                 Text("Health")
             }
+            HealthPage()
+            .tabItem() {
+                Image(systemName: "bolt.heart")
+                Text("Status")
+            }
             SettingsPage()
                 .tabItem {
                     Image(systemName: "gear")

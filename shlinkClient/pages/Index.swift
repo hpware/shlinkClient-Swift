@@ -1,5 +1,8 @@
 import SwiftUI
 import SwiftData
+import Foundation
+
+
 
 struct IndexPage: View {
     //enum Field: Hashable {
@@ -9,6 +12,7 @@ struct IndexPage: View {
     //    case endDate
     //}
     @State private var link = ""
+    @State private var Links: [LinkModel] = []
     //@FocusState private var FeildFocus = Field?
     var body: some View {
         NavigationStack {
@@ -25,6 +29,12 @@ struct IndexPage: View {
                         Button(action: submitLink) {
                             Image(systemName: "link.badge.plus")
                         }
+                    }
+                }
+                VStack {
+                    ForEach(Links) {
+                        i in 
+                        Text()
                     }
                 }
             }.navigationTitle("Shlink")

@@ -8,7 +8,9 @@ struct SettingsPage: View {
     }
     @Environment(\.modelContext) private var modelContext
     @Query private var servers: [Server]
+    // TextField
     @State private var newURL = ""
+    @State private var newToken = ""
     // Import from needed plugins from the rest folding the staring should only be rest_{theapi}
     @StateObject private var rest_Health = HealthRest()
     @FocusState private var focusedField: Field?
@@ -31,9 +33,9 @@ struct SettingsPage: View {
                         }
                         Spacer()
                         HStack {
-                            TextField(
-                            "Enter your private token.",
-                            text: $newURL
+                            SecureField(
+                            "Enter your token.",
+                            text: $newToken
                         )
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
