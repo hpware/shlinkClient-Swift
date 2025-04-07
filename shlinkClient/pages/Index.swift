@@ -12,13 +12,14 @@ struct IndexPage: View {
     //    case endDate
     //}
     @State private var link = ""
-    @State private var Links: [LinkModel] = []
+    @State private var customizeSlug = ""
+    @Query private var storedLinks: [MLinkModel]
     //@FocusState private var FeildFocus = Field?
     var body: some View {
         NavigationStack {
             List {
                 Section(header: Text("Create a link")) {
-                    VStack {
+                        VStack {
                         TextField(
                             "The link you want to shorten", 
                             text: $link
@@ -26,15 +27,27 @@ struct IndexPage: View {
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .onSubmit(submitLink)
+                        Spacer()
+                        HStack {
+                            TextField(
+                            "Customize Slug",
+                            text: $customizeSlug
+                        )
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .onSubmit(submitLink)
+                        Spacer()
+                        }
                         Button(action: submitLink) {
                             Image(systemName: "link.badge.plus")
                         }
-                    }
-                }
+                }}
                 VStack {
-                    ForEach(Links) {
+                    ForEach(storedLinks) {
                         i in 
-                        Text()
+                        VStack(alignment: .leading) {
+                            Text(i.shortURL).font(.headline)
+                        }
                     }
                 }
             }.navigationTitle("Shlink")
@@ -42,3 +55,4 @@ struct IndexPage: View {
     }
     private func submitLink() {}
 }
+ 
