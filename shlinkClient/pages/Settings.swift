@@ -80,8 +80,10 @@ struct SettingsPage: View {
                     }
                     // WHY DOES IT NEED A ! IN THE END?? WHAT THE FUCK IS WRONG
                     Link(destination: URL(string: "https://github.com/hpware/shlinkclient-Swift")!) {
-                        Label("Source code", systemImage: "chevron.left.forwardslash.chevron.right")
-                        Image(systemName: "link")
+                        HStack {
+                            Label("Source code", systemImage: "chevron.left.forwardslash.chevron.right")
+                            Image(systemName: "link")
+                        }
                     }
                 }
             }.navigationTitle("Settings")
