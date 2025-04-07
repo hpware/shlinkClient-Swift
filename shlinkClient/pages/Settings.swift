@@ -2,28 +2,51 @@ import SwiftUI
 import SwiftData
 
 struct SettingsPage: View {
+    enum Field: Hashable {
+        case url
+        case token
+    }
     @Environment(\.modelContext) private var modelContext
     @Query private var servers: [Server]
     @State private var newURL = ""
     // Import from needed plugins from the rest folding the staring should only be rest_{theapi}
     @StateObject private var rest_Health = HealthRest()
-
+    @FocusState private var focusedField: Field?
+    
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Your Shlink Instances")) {
-                    HStack {
+                Section(header: Text("Add a new Shlink instance")) {
+                    VStack {
                         TextField(
-                            "Add a new Shlink instance",
+                            "Enter your Server URL",
                             text: $newURL
                         )
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
+                        .focused($focusedField, equals: .url)
+                        .submitLabel(.next)
+                        .onSubmit{
+                            focusedField = .token
+                        }
+                        Spacer()
+                        HStack {
+                            TextField(
+                            "Enter your private token.",
+                            text: $newURL
+                        )
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .focused($focusedField, equals: .token)
                         .onSubmit(createNewServer)
                         Button(action: createNewServer) {
                             Image(systemName: "plus")
                         }.disabled(newURL.isEmpty)
+                        }
                     }
+                    .padding(.vertical, 8)
+                }
+                Section(header: Text("Your Shlink Instances")) {
                     ForEach(servers) {
                         i in 
                         HStack() {
@@ -44,7 +67,23 @@ struct SettingsPage: View {
                             }
                         }
                     }.onDelete(perform: deleteServers)
-                } 
+                }
+                Section(
+                    header: Text("Other"),
+                    footer: Text("Shlink iOS Manager v0.1.0").font(.footnote).foregroundStyle(.secondary)
+                ) {
+                    NavigationLink(destination: PrivacyPolicyPage()) {
+                        Label("How we use your data", systemImage: "lock.shield")
+                    }
+                    NavigationLink(destination: AboutPage()) {
+                        Label("About this app", systemImage: "info.circle")
+                    }
+                    // WHY DOES IT NEED A ! IN THE END?? WHAT THE FUCK IS WRONG
+                    Link(destination: URL(string: "https://github.com/hpware/shlinkclient-Swift")!) {
+                        Label("Source code", systemImage: "chevron.left.forwardslash.chevron.right")
+                        Image(systemName: "link")
+                    }
+                }
             }.navigationTitle("Settings")
         }
     }
