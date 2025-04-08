@@ -69,7 +69,7 @@ struct IndexPage: View {
                 VStack {
                     ForEach(storedLinks) {
                         i in 
-                        NavigationLink(destination: getMoreInfo(i.id)) {
+                        NavigationLink(destination: getMoreInfo(linkId: i.id)) {
                             VStack(alignment: .leading) {
                             Text(i.shortURL).font(.headline)
                         }
