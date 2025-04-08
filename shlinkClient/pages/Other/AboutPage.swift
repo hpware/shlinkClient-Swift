@@ -8,7 +8,7 @@ struct AboutPage: View {
                     Text("Shlink Client")
                         .font(.title2)
                         .bold()
-                    Text("A native iOS client for managing your Shlink URL shortener instances.")
+                    Text("A native iOS client using SwiftLang for managing your Shlink URL shortener instances. No finiky webUIs and Shortcuts.")
                         .foregroundStyle(.secondary)
                 }
                 .padding(.vertical, 8)

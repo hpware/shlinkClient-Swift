@@ -5,16 +5,19 @@ import Foundation
 
 
 struct IndexPage: View {
-    //enum Field: Hashable {
-    //    case longLink
-    //    case slug
-    //    case startDate
-    //    case endDate
-    //}
+    enum Field: Hashable {
+        case longLink
+        case slug
+        case title
+        case startDate
+        case endDate
+    }
     @State private var link = ""
     @State private var customizeSlug = ""
+    @State private var newLinkTitle = ""
     @Query private var storedLinks: [MLinkModel]
-    //@FocusState private var FeildFocus = Field?
+    @FocusState private var focusedField: Field?
+
     var body: some View {
         NavigationStack {
             List {
@@ -26,7 +29,12 @@ struct IndexPage: View {
                         )
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
-                        .onSubmit(submitLink)
+                        .focused($focusedField, equals: .longLink)
+                        .submitLabel(.next)
+                        .onSubmit{
+                            focusedField = .slug
+                        }
+                        .padding(.vertical, 8)
                         Spacer()
                         HStack {
                             TextField(
@@ -35,18 +43,36 @@ struct IndexPage: View {
                         )
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
-                        .onSubmit(submitLink)
+                        .submitLabel(.next)
+                        .focused($focusedField, equals: .slug)
+                        .onSubmit{
+                            focusedField = .title
+                        }
                         Spacer()
-                        }
+                            TextField(
+                                "Title",
+                                text: $newLinkTitle
+                            )
+                            .focused($focusedField, equals: . title)
+                            .onSubmit(submitLink)
+                        }.padding(.bottom, 8)
                         Button(action: submitLink) {
-                            Image(systemName: "link.badge.plus")
-                        }
-                }}
+                            HStack {
+                                Image(systemName: "link.badge.plus")
+                                Text("Create")
+                            }
+                        }.padding(.vertical, 4)
+                        
+                }
+                }
+                .listRowSeparator(.hidden)
                 VStack {
                     ForEach(storedLinks) {
                         i in 
-                        VStack(alignment: .leading) {
+                        NavigationLink(destination: getMoreInfo(i.id)) {
+                            VStack(alignment: .leading) {
                             Text(i.shortURL).font(.headline)
+                        }
                         }
                     }
                 }
