@@ -7,7 +7,7 @@ struct ContentView: View {
             IndexPage()
                 .tabItem {
                     Image(systemName: "house")
-                    Text("Health")
+                    Text("Home")
                 }
             ViewAnalytics()
                 .tabItem {

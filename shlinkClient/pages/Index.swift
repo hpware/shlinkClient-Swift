@@ -84,6 +84,8 @@ struct IndexPage: View {
                                 Text("Create")
                             }
                         }.padding(.vertical, 4)
+                        .foregroundColor(.green)
+                        .tint(.green)
                     }
                 }
                 .listRowSeparator(.hidden)

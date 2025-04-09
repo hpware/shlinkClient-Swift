@@ -81,15 +81,19 @@ struct SettingsPage: View {
                     NavigationLink(destination: AboutPage()) {
                         Label("About this app", systemImage: "info.circle")
                     }
-                    NavigationLink(destination: SetupPage()) {
+                    Button(action: restartSetupFlow) {
                         Label("Restart setup flow", systemImage: "restart.circle")
                     }
+                    .foregroundColor(.red)
+                    .tint(.red)
                     // WHY DOES IT NEED A ! IN THE END??
                     Link(destination: URL(string: "https://github.com/hpware/shlinkclient-Swift")!) {
                         HStack {
                             Label("Source code", systemImage: "chevron.left.forwardslash.chevron.right")
                             Image(systemName: "link")
                         }
+                        .foregroundColor(.white)
+                        .tint(.white)
                     }
                 }
             }.navigationTitle("Settings")
@@ -132,6 +136,11 @@ struct SettingsPage: View {
             for index in offsets {
                 modelContext.delete(servers[index])
             }
+        }
+    }
+    private func restartSetupFlow() {
+        withAnimation {
+            AnyView(SetupPage())
         }
     }
 }
