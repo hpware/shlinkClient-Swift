@@ -81,7 +81,10 @@ struct SettingsPage: View {
                     NavigationLink(destination: AboutPage()) {
                         Label("About this app", systemImage: "info.circle")
                     }
-                    // WHY DOES IT NEED A ! IN THE END?? WHAT THE FUCK IS WRONG
+                    NavigationLink(destination: SetupPage()) {
+                        Label("Restart setup flow", systemImage: "restart.circle")
+                    }
+                    // WHY DOES IT NEED A ! IN THE END??
                     Link(destination: URL(string: "https://github.com/hpware/shlinkclient-Swift")!) {
                         HStack {
                             Label("Source code", systemImage: "chevron.left.forwardslash.chevron.right")

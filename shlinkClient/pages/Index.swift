@@ -54,12 +54,30 @@ struct IndexPage: View {
                             )
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
-                            .submitLabel($focusedField, equals: .tags)
+                            .focused($focusedField, equals: .tags)
                             .submitLabel(.done)
-                            .onSubmit{
+                            .onSubmit {
                                 addTag()
                             }
                         }.padding(.bottom, 8)
+                        HStack {
+                            ForEach(newLinkTags, id: \.self) {
+                                tag in
+                                HStack(spacing: 4) {
+                                    Text(tag)
+                                        .font(.footnote)
+                                    Button(action: removeTag) {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .foregroundColor(.gray)
+                                            .font(.footnote)
+                                    }
+                                }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.blue.opacity(0.1))
+                                .cornerRadius(8)
+                            }
+                        }
                         Button(action: submitLink) {
                             HStack {
                                 Image(systemName: "link.badge.plus")
@@ -72,7 +90,7 @@ struct IndexPage: View {
                 VStack {
                     ForEach(storedLinks) {
                         i in
-                        NavigationLink(destination: getMoreInfo(linkId: i.id)) {
+                        NavigationLink(destination: getMoreInfo(linkId: "e")) {
                             VStack(alignment: .leading) {
                                 Text(i.shortURL).font(.headline)
                             }
@@ -95,9 +113,11 @@ struct IndexPage: View {
 
     private func addTag() {
         let tag = currentTag.trimmingCharacters(in: .whitespacesAndNewlines)
-        if (!tag.isEmpty && !newLinkTags.contains(tag)) {
+        if !tag.isEmpty && !newLinkTags.contains(tag) {
             newLinkTags.append(tag)
             currentTag = ""
         }
     }
+
+    private func removeTag() {}
 }
