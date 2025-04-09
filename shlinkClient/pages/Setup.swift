@@ -1,6 +1,5 @@
-import SwiftUI
 import SwiftData
-
+import SwiftUI
 
 struct SetupPage: View {
     var body: some View {

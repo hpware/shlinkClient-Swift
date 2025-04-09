@@ -13,7 +13,7 @@ struct AboutPage: View {
                 }
                 .padding(.vertical, 8)
             }
-            
+
             Section {
                 Link("Shlink Documentation", destination: URL(string: "https://shlink.io/documentation/")!)
                 Link("Report an Issue", destination: URL(string: "https://github.com/hpware/shlinkClient-swift/issues")!)

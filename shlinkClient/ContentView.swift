@@ -1,19 +1,19 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ContentView: View {
     var body: some View {
         TabView {
             IndexPage()
-            .tabItem() {
-                Image(systemName: "house")
-                Text("Health")
-            }
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Health")
+                }
             HealthPage()
-            .tabItem() {
-                Image(systemName: "bolt.heart")
-                Text("Status")
-            }
+                .tabItem {
+                    Image(systemName: "bolt.heart")
+                    Text("Status")
+                }
             SettingsPage()
                 .tabItem {
                     Image(systemName: "gear")
