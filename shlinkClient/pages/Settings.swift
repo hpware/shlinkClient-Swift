@@ -7,7 +7,9 @@ struct SettingsPage: View {
         case token
     }
 
+    // ENVS
     @Environment(\.modelContext) private var modelContext
+    // FETCH SERVERS
     @Query private var servers: [Server]
     // TextField
     @State private var newURL = ""
@@ -15,6 +17,8 @@ struct SettingsPage: View {
     // Import from needed plugins from the rest folding the staring should only be rest_{theapi}
     @StateObject private var rest_Health = HealthRest()
     @FocusState private var focusedField: Field?
+    // Select Servers
+    @State private var selectedServers = Set<String>()
 
     var body: some View {
         NavigationStack {
@@ -50,30 +54,32 @@ struct SettingsPage: View {
                     .padding(.vertical, 8)
                 }
                 Section(header: Text("Your Shlink Instances")) {
-                    ForEach(servers) {
-                        i in
-                        HStack {
-                            Text(i.url).font(.headline)
-                            Spacer()
-                            if rest_Health.loadingURLs.contains(i.url) {
-                                ProgressView()
-                                // this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
-                            } else if let status = rest_Health.healthStatuses[i.url] {
-                                if status.status == "pass" {
-                                    Image(systemName: "checkmark.seal.fill")
-                                } else {
-                                    Image(systemName: "xmark.seal.fill")
-                                }
-                                if let vis = status.version {
-                                    Text("Version: \(vis)")
+                    List(selection: $selectedServers) {
+                        ForEach(servers) {
+                            i in
+                            HStack {
+                                Text(i.url).font(.headline)
+                                Spacer()
+                                if rest_Health.loadingURLs.contains(i.url) {
+                                    ProgressView()
+                                    // this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
+                                } else if let status = rest_Health.healthStatuses[i.url] {
+                                    if status.status == "pass" {
+                                        Image(systemName: "checkmark.seal.fill")
+                                    } else {
+                                        Image(systemName: "xmark.seal.fill")
+                                    }
+                                    if let vis = status.version {
+                                        Text("Version: \(vis)")
+                                    }
                                 }
                             }
-                        }
-                    }.onDelete(perform: deleteServers)
+                        }.onDelete(perform: deleteServers)
+                    }
+                    .selectionDisabled(false)
                 }
                 Section(
-                    header: Text("Other"),
-                    footer: Text("Shlink iOS Manager v0.1.0").font(.footnote).foregroundStyle(.secondary)
+                    header: Text("Other")
                 ) {
                     NavigationLink(destination: PrivacyPolicyPage()) {
                         Label("How we use your data", systemImage: "lock.shield")
@@ -81,20 +87,31 @@ struct SettingsPage: View {
                     NavigationLink(destination: AboutPage()) {
                         Label("About this app", systemImage: "info.circle")
                     }
-                    Button(action: restartSetupFlow) {
-                        Label("Restart setup flow", systemImage: "restart.circle")
+                }
+                Section(
+                    header: Text("The Danger Zone"),
+                    footer: Text("Shlink iOS Manager v0.1.0").font(.footnote).foregroundStyle(.secondary)
+                ) {
+                    // Use item for only an Item, use Items to export items.
+                    ShareLink(item: exportJSON(path: "shlink_manager_export", encode: servers), preview: SharePreview("Export your Shlink Instances to a json file")) {
+                        Label("Export your Shlink Instances", systemImage: "square.and.arrow.up")
                     }
                     .foregroundColor(.red)
                     .tint(.red)
-                    // WHY DOES IT NEED A ! IN THE END??
-                    Link(destination: URL(string: "https://github.com/hpware/shlinkclient-Swift")!) {
-                        HStack {
-                            Label("Source code", systemImage: "chevron.left.forwardslash.chevron.right")
-                            Image(systemName: "link")
-                        }
-                        .foregroundColor(.white)
-                        .tint(.white)
-                    }
+                    /*
+                     // Use item for only an Item, use Items to export items. (This apperenly now export TWO text dumps, when it should only give a .json file to the user.)
+                     ShareLink(item: servers) {
+                         server in SharePreview(
+                                 "Shlink Instance: \(server.url)",
+                                 image: "doc.text"
+                         )
+                     } label: {
+                         Label("Export your Shlink Instances", systemImage: "square.and.arrow.up")
+                     }
+                     */
+                    /* Button(action: restartSetupFlow) {
+                         Label("Restart setup flow", systemImage: "restart.circle")
+                     } */
                 }
             }.navigationTitle("Settings")
         }
@@ -138,9 +155,30 @@ struct SettingsPage: View {
             }
         }
     }
+
     private func restartSetupFlow() {
         withAnimation {
             AnyView(SetupPage())
+        }
+    }
+
+    // This coverts an array to a json file (btw the Array<T>'s T means it checks if it works with Encodable, and it will work on ANY I mean ANY array.) Ands it points to the temp URL of the newly created file.
+    private func exportJSON<T: Encodable>(path: String, encode: [T]) -> URL {
+        // Creates the encoder via the func JSONEncoder() (super easy to understand)
+        let encoder = JSONEncoder()
+        // This makes sure the JSON is formatted with proper indentation and line breaks (Comment this out later, this won't be needed)
+        // encoder.outputFormatting = .prettyPrinted // Unneeded code
+        //
+        let fileURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(path)
+            .appendingPathExtension("json")
+        do {
+            let jsonData = try encoder.encode(encode)
+            try jsonData.write(to: fileURL)
+            return fileURL
+        } catch {
+            print(error)
+            return fileURL
         }
     }
 }

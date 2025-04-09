@@ -1,6 +1,8 @@
+import StoreKit
 import SwiftUI
 
 struct AboutPage: View {
+    @Environment(\.requestReview) var requestReview
     var body: some View {
         List {
             Section {
@@ -15,9 +17,18 @@ struct AboutPage: View {
             }
 
             Section {
+                Button("Leave a review") {
+                    requestReview()
+                }
+                // WHY DOES IT NEED A ! IN THE END??
+                Link(destination: URL(string: "https://github.com/hpware/shlinkclient-Swift")!) {
+                    Text("Source code")
+                }
                 Link("Shlink Documentation", destination: URL(string: "https://shlink.io/documentation/")!)
                 Link("Report an Issue", destination: URL(string: "https://github.com/hpware/shlinkClient-swift/issues")!)
             }
+            .foregroundColor(.white)
+            .tint(.white)
         }
         .navigationTitle("About")
     }
