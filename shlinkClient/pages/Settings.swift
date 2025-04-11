@@ -14,6 +14,7 @@ struct SettingsPage: View {
     // TextField
     @State private var newURL = ""
     @State private var newToken = ""
+    @State private var newDomain = ""
     // Import from needed plugins from the rest folding the staring should only be rest_{theapi}
     @StateObject private var rest_Health = HealthRest()
     @FocusState private var focusedField: Field?
@@ -23,30 +24,48 @@ struct SettingsPage: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Add a new Shlink instance")) {
+                /* Section(header: Text("Add a new Shlink instance")) {
+                     VStack {
+                         TextField(
+                             "Enter your Server URL",
+                             text: $newURL
+                         )
+                         .textInputAutocapitalization(.never)
+                         .disableAutocorrection(true)
+                         .focused($focusedField, equals: .url)
+                         .submitLabel(.next)
+                         .onSubmit {
+                             focusedField = .token
+                         }
+                         Spacer()
+                         HStack {
+                             SecureField(
+                                 "Enter your token.",
+                                 text: $newToken
+                             )
+                             .textInputAutocapitalization(.never)
+                             .disableAutocorrection(true)
+                             .focused($focusedField, equals: .token)
+                             .onSubmit(createNewServer)
+                             Button(action: createNewServer) {
+                                 Image(systemName: "plus")
+                             }.disabled(newURL.isEmpty)
+                         }
+                     }
+                     .padding(.vertical, 8)
+                 } */
+                Section(header: Text("Add a new Domain")) {
                     VStack {
-                        TextField(
-                            "Enter your Server URL",
-                            text: $newURL
-                        )
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .focused($focusedField, equals: .url)
-                        .submitLabel(.next)
-                        .onSubmit {
-                            focusedField = .token
-                        }
-                        Spacer()
                         HStack {
                             SecureField(
-                                "Enter your token.",
-                                text: $newToken
+                                "The domain you want to add.",
+                                text: $newDomain
                             )
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
                             .focused($focusedField, equals: .token)
-                            .onSubmit(createNewServer)
-                            Button(action: createNewServer) {
+                            .onSubmit(pushNewServer)
+                            Button(action: pushNewServer) {
                                 Image(systemName: "plus")
                             }.disabled(newURL.isEmpty)
                         }
@@ -146,6 +165,10 @@ struct SettingsPage: View {
                 }
             } catch {}
         }
+    }
+
+    private func pushNewServer() {
+        
     }
 
     private func deleteServers(offsets: IndexSet) {
