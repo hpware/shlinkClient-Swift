@@ -11,6 +11,8 @@ struct SettingsPage: View {
     @Environment(\.modelContext) private var modelContext
     // FETCH SERVERS
     @Query private var servers: [Server]
+    // @StateObject the main globalStore first then @Query the GlobalStore.shared, yes that makes sense.
+    @StateObject private var globalStore = GlobalStore.shared
     // TextField
     @State private var newURL = ""
     @State private var newToken = ""
@@ -20,6 +22,13 @@ struct SettingsPage: View {
     @FocusState private var focusedField: Field?
     // Select Servers
     @State private var selectedServers = Set<String>()
+    @State private var showResetAlert = false
+    @State private var showUpdateShlinkToken = false
+
+    //
+    var token: String {
+        globalStore.token
+    }
 
     var body: some View {
         NavigationStack {
@@ -57,7 +66,7 @@ struct SettingsPage: View {
                 Section(header: Text("Add a new Domain")) {
                     VStack {
                         HStack {
-                            SecureField(
+                            TextField(
                                 "The domain you want to add.",
                                 text: $newDomain
                             )
@@ -67,35 +76,18 @@ struct SettingsPage: View {
                             .onSubmit(pushNewServer)
                             Button(action: pushNewServer) {
                                 Image(systemName: "plus")
-                            }.disabled(newURL.isEmpty)
+                            }.disabled(newDomain.isEmpty)
                         }
                     }
-                    .padding(.vertical, 8)
+                    // .padding(.vertical, 8)
                 }
                 Section(header: Text("Your Shlink Instances")) {
-                    List(selection: $selectedServers) {
-                        ForEach(servers) {
-                            i in
-                            HStack {
-                                Text(i.url).font(.headline)
-                                Spacer()
-                                if rest_Health.loadingURLs.contains(i.url) {
-                                    ProgressView()
-                                    // this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
-                                } else if let status = rest_Health.healthStatuses[i.url] {
-                                    if status.status == "pass" {
-                                        Image(systemName: "checkmark.seal.fill")
-                                    } else {
-                                        Image(systemName: "xmark.seal.fill")
-                                    }
-                                    if let vis = status.version {
-                                        Text("Version: \(vis)")
-                                    }
-                                }
-                            }
-                        }.onDelete(perform: deleteServers)
-                    }
-                    .selectionDisabled(false)
+                    ForEach(servers) {
+                        i in
+                        HStack {
+                            Text(i.url).font(.headline)
+                        }
+                    }.onDelete(perform: deleteServers)
                 }
                 Section(
                     header: Text("Other")
@@ -128,11 +120,42 @@ struct SettingsPage: View {
                          Label("Export your Shlink Instances", systemImage: "square.and.arrow.up")
                      }
                      */
-                    /* Button(action: restartSetupFlow) {
-                         Label("Restart setup flow", systemImage: "restart.circle")
-                     } */
+                    Button(action: {
+                        showResetAlert = true
+                    }) {
+                        Label("Restart setup flow", systemImage: "restart.circle")
+                    }
+                    .foregroundColor(.red)
+                    .tint(.red)
                 }
-            }.navigationTitle("Settings")
+            }
+            .navigationTitle("Settings")
+            .refreshable {
+                updateDomains()
+            }
+            .alert(
+                "Reset your application",
+                isPresented: $showResetAlert,
+                actions: {
+                    Button("Cancel", role: .cancel) {
+                        showResetAlert = false
+                    }
+                    Button("Delete", role: .destructive) {
+                        restartSetupFlow()
+                    }
+                },
+                message: {
+                    Text("Are your really sure? This reset every single setting you have in this application!")
+                }
+            )
+            .alert(
+                "Update your Shlink Token",
+                isPresented: $showUpdateShlinkToken,
+                actions: {
+                    Button("Ok", role: .destructive) {}
+                    Button("Delete", role: .destructive) {}
+                }
+            )
         }
     }
 
@@ -167,9 +190,7 @@ struct SettingsPage: View {
         }
     }
 
-    private func pushNewServer() {
-        
-    }
+    private func pushNewServer() {}
 
     private func deleteServers(offsets: IndexSet) {
         withAnimation {
@@ -179,10 +200,10 @@ struct SettingsPage: View {
         }
     }
 
+    private func updateDomains() {}
+
     private func restartSetupFlow() {
-        withAnimation {
-            AnyView(SetupPage())
-        }
+        exit(0)
     }
 
     // This coverts an array to a json file (btw the Array<T>'s T means it checks if it works with Encodable, and it will work on ANY I mean ANY array.) Ands it points to the temp URL of the newly created file.

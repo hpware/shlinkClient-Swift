@@ -106,6 +106,8 @@ struct IndexPage: View {
                     }
                 }
             }.navigationTitle("Shlink")
+        }.refreshable {
+            await refreshLinks()
         }
     }
 
@@ -122,4 +124,6 @@ struct IndexPage: View {
     }
 
     private func removeTag() {}
+
+    private func refreshLinks() {}
 }
