@@ -8,7 +8,7 @@ struct IndexPage: View {
         case slug
         case tags
     }
-
+    
     @State private var link = ""
     @State private var customizeSlug = ""
     // New links and stuff
@@ -16,7 +16,7 @@ struct IndexPage: View {
     @State private var currentTag: String = ""
     @Query private var storedLinks: [MLinkModel]
     @FocusState private var focusedField: BaseField?
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -109,6 +109,7 @@ struct IndexPage: View {
         }.refreshable {
             await refreshLinks()
         }
+        /**.dismissKeyboardTap()*/
     }
 
     private func submitLink() {}

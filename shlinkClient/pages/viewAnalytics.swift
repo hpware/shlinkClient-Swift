@@ -28,6 +28,7 @@ struct ViewAnalytics: View {
         .refreshable {
             refreshAnalytics()
         }
+        /**.dismissKeyboardTap()*/
     }
 
     private func refreshAnalytics() {}

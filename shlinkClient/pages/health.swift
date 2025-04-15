@@ -57,6 +57,10 @@ struct HealthPage: View {
         } message: {
             Text("Server Added")
         }
+        .refreshable{
+            refreshAll()
+        }
+        /**.dismissKeyboardTap()*/
     }
 
     private func addServer() {
@@ -142,6 +146,7 @@ struct ServerStatusView: View {
 
     var body: some View {
         // 我是眼殘 把 .leading 看成 .loading ...
+
         VStack(alignment: .leading) {
             Text(server.url).font(.headline)
             if dataService.isLoading {

@@ -28,6 +28,26 @@ struct ContentView: View {
     }
 }
 
+struct DismissKeyboardOnTap: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .onTapGesture
+                {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                        to: nil,
+                        from: nil,
+                        for: nil
+                    )
+                }
+    }
+}
+
+extension View {
+    func dismissKeyboardTap() -> some View {
+        modifier(DismissKeyboardOnTap())
+    }
+}
+
 #Preview {
     ContentView()
         .modelContainer(for: Item.self, inMemory: true)

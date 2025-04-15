@@ -18,7 +18,12 @@ class HealthRest: ObservableObject {
     @Published var errorMessage: String?
 
     func fetchHealthData(url: String) {
-        guard let url = URL(string: url) else {
+        let baseurl = url
+        let healthEndpoint = url.hasSuffix("/") ? "rest/health" : "/rest/health"
+        print(baseurl)
+        let endPoint = baseurl + healthEndpoint
+        print(endPoint)
+        guard let url = URL(string: endPoint) else {
             errorMessage = "Invalid URL"
             return
         }

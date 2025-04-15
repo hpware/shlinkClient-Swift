@@ -63,6 +63,34 @@ struct SettingsPage: View {
                      }
                      .padding(.vertical, 8)
                  } */
+                // 我是眼殘 把 .leading 看成 .loading ...
+                VStack(alignment: .leading) {
+                    if rest_Health.isLoading {
+                        ProgressView()
+                        //       this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
+                    } else if let status = rest_Health.healthStatus {
+                        HStack{
+                            if status.status == "pass" {
+                                Image(systemName: "checkmark.seal.fill")
+                                    .font(.headline)
+                            } else {
+                                Image(systemName: "xmark.seal.fill")
+                                    .font(.headline)
+                            }
+                            VStack{
+                                Text("Server Status \(status.status == "pass" ? "OK" : "Failed" )")
+                                    .font(.subheadline);
+                                if let version = status.version {
+                                    Text("Version: \(version)").font(.caption)
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+                .onAppear {
+                    rest_Health.fetchHealthData(url: servers[0].url)
+                }
                 Section(header: Text("Add a new Domain")) {
                     VStack {
                         HStack {
@@ -103,6 +131,12 @@ struct SettingsPage: View {
                     header: Text("The Danger Zone"),
                     footer: Text("Shlink iOS Manager v0.1.0").font(.footnote).foregroundStyle(.secondary)
                 ) {
+                    NavigationLink(destination: setNewToken()) {
+                        Label("Update your auth token", systemImage: "key.fill")
+                    }
+                    .foregroundColor(.red)
+                    .tint(.red)
+
                     // Use item for only an Item, use Items to export items.
                     ShareLink(item: exportJSON(path: "shlink_manager_export", encode: servers), preview: SharePreview("Export your Shlink Instances to a json file")) {
                         Label("Export your Shlink Instances", systemImage: "square.and.arrow.up")
@@ -129,6 +163,7 @@ struct SettingsPage: View {
                     .tint(.red)
                 }
             }
+            /**.dismissKeyboardTap()*/
             .navigationTitle("Settings")
             .refreshable {
                 updateDomains()

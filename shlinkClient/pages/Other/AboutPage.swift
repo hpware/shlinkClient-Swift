@@ -27,8 +27,6 @@ struct AboutPage: View {
                 Link("Shlink Documentation", destination: URL(string: "https://shlink.io/documentation/")!)
                 Link("Report an Issue", destination: URL(string: "https://github.com/hpware/shlinkClient-swift/issues")!)
             }
-            .foregroundColor(.white)
-            .tint(.white)
         }
         .navigationTitle("About")
     }
