@@ -11,6 +11,7 @@ struct IndexPage: View {
     
     @State private var link = ""
     @State private var customizeSlug = ""
+    @State private var more = false
     // New links and stuff
     @State private var newLinkTags: [String] = []
     @State private var currentTag: String = ""
@@ -55,11 +56,42 @@ struct IndexPage: View {
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
                             .focused($focusedField, equals: .tags)
-                            .submitLabel(.done)
-                            .onSubmit {
-                                addTag()
-                            }
+                            .submitLabel(more ? .next : .done)
                         }.padding(.bottom, 8)
+                        Spacer()
+                        if more == true {
+                            // MAIN INPUT
+
+                            TextField(
+                                "Max Visits Allowed",
+                                text: $currentTag
+                            )
+                            
+                            // HIDE
+                            HStack(spacing: 4) {
+                                Button(action: {
+                                    more = false;
+                                }) {
+                                    HStack{
+                                        Image(systemName: "chevron.up")
+                                            .font(.footnote)
+                                        Text("Hide")
+                                    }
+                                    }
+                            }
+                        } else {
+                            HStack(spacing: 4) {
+                                Button(action: {
+                                    more = true;
+                                }) {
+                                    HStack{
+                                        Image(systemName: "chevron.down")
+                                            .font(.footnote)
+                                        Text("More options")
+                                    }
+                                }
+                            }
+                        }
                         HStack {
                             ForEach(newLinkTags, id: \.self) {
                                 tag in
