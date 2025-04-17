@@ -18,7 +18,7 @@ class AnalyticsRest: ObservableObject {
 
     func fetchHealthData(url: String) {
         let baseurl = url
-        let healthEndpoint = url.hasSuffix("/") ? "rest/health" : "/rest/health"
+        let healthEndpoint = url.hasSuffix("/") ? "v3/" : "/rest/health"
         print(baseurl)
         let endPoint = baseurl + healthEndpoint
         print(endPoint)

@@ -14,11 +14,11 @@ struct ContentView: View {
                     Image(systemName: "livephoto")
                     Text("Analytics")
                 }
-            HealthPage()
+            /*HealthPage()
                 .tabItem {
                     Image(systemName: "bolt.heart")
                     Text("Status")
-                }
+                }*/
             SettingsPage()
                 .tabItem {
                     Image(systemName: "gear")
