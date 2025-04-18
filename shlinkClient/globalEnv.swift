@@ -8,9 +8,21 @@ final class GlobalStore: ObservableObject {
     // Don't make the private init go into to other values
 
     // And publish it, ok this is ridiculous
-    @Published @ObservationIgnored var mainServer: String = ""
-    @Published @ObservationIgnored var token: String = ""
+    @Published @ObservationIgnored var mainServer: String {
+        didSet {
+            UserDefaults.standard.set(mainServer, forKey: "shlinkMainServer")
+        }
+    }
+    @Published @ObservationIgnored var token: String {
+        didSet {
+            // Save the token whenever it changes
+            UserDefaults.standard.set(token, forKey: "shlinkAuthToken")
+        }
+    }
     @Published @ObservationIgnored var healthStatus: Bool = false
 
-    private init() {}
+    private init() {
+        self.mainServer = UserDefaults.standard.string(forkey: "shlinkMainServer") ?? ""
+        self.token = UserDefaults.standard.string(forKey: "shlinkToken") ?? ""
+    }
 }

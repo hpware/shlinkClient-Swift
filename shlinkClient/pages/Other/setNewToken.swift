@@ -4,13 +4,37 @@ import SwiftUI
 struct setNewToken: View {
     @State private var showReallySure = false
     @State private var newToken = ""
+    @State private var oldVisible = false
     // Global Store (token)
     @StateObject private var globalStore = GlobalStore.shared
     var body: some View {
         NavigationStack {
             List {
-                // DEBUGGING ONLY (IN PROD IT MUST BE ONLY DISPLAYING THE FIRST FEW DIGITS.
-                Text(globalStore.token)
+                Section {
+                    Text("This is where you can reset & update your token, if you have no idea how to do so, please advise the Shlink docs or an AI. (Just connect to your docker container and type in this command: \n shlink api-key:generate --name=ios_app )")
+                    .padding(.vertical, 8)
+                }
+                HStack {
+                    Text("Your old Token: ")
+                    if oldVisible{
+                        SecureField("\(globalStore.token)", text: $globalStore.token)
+                    .disabled(true)
+                    } else {
+                        Text("\(globalStore.token)")
+                    }
+                    Spacer()
+                    Button (
+                        action: {
+                            oldVisible = !oldVisible
+                        }
+                    ) {
+                        if oldVisible {
+                            Image(systemName: "eye")
+                        } else {
+                            Image(systemName: "eye.slash")
+                        }
+                    }
+                }
                 SecureField(
                     "Your new Token here",
                     text: $newToken
@@ -19,7 +43,6 @@ struct setNewToken: View {
                 .onSubmit {
                     showReallySure = true
                 }
-                Spacer()
                 Button("Submit") {
                     showReallySure = true
                 }
@@ -43,5 +66,8 @@ struct setNewToken: View {
                     Text("Make sure the corrent token is entered, if the token is wrong, you can't do any actions other than checking it's status.")
                 }
             )/**.dismissKeyboardTap()*/
+            /*.alert(
+                "Are you really want to "
+            )*/
     }
 }

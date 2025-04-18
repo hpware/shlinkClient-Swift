@@ -64,32 +64,40 @@ struct SettingsPage: View {
                      .padding(.vertical, 8)
                  } */
                 // 我是眼殘 把 .leading 看成 .loading ...
-                VStack(alignment: .leading) {
-                    if rest_Health.isLoading {
-                        ProgressView()
-                        //       this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
-                    } else if let status = rest_Health.healthStatus {
-                        HStack{
-                            if status.status == "pass" {
-                                Image(systemName: "checkmark.seal.fill")
-                                    .font(.headline)
-                            } else {
-                                Image(systemName: "xmark.seal.fill")
-                                    .font(.headline)
-                            }
-                            VStack{
-                                Text("Server Status \(status.status == "pass" ? "OK" : "Failed" )")
-                                    .font(.subheadline);
-                                if let version = status.version {
-                                    Text("Version: \(version)").font(.caption)
+                Section {
+                    VStack(alignment: .leading) {
+                        if rest_Health.isLoading {
+                            ProgressView()
+                            // this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
+                        } else if let status = rest_Health.healthStatus {
+                            HStack{
+                                Spacer()
+                                if status.status == "pass" {
+                                    Image(systemName: "checkmark.seal.fill")
+                                        .font(.system(size: 40))
+                                        .tint(.green)
+                                        .foregroundColor(.green)
+                                } else {
+                                    Image(systemName: "xmark.seal.fill")
+                                        .font(.system(size: 40))
+                                        .tint(.red)
+                                        .foregroundColor(.green)
                                 }
+                                VStack{
+                                    Text("Server Status \(status.status == "pass" ? "OK" : "Failed" )")
+                                        .font(.system(size:20));
+                                    if let version = status.version {
+                                        Text("Version: \(version)").font(.system(size:15))
+                                    }
+                                }
+                                Spacer()
                             }
                         }
                     }
-                }
-                .padding(.vertical, 4)
-                .onAppear {
-                    rest_Health.fetchHealthData(url: servers[0].url)
+                    .padding(.vertical, 4)
+                    .onAppear {
+                        rest_Health.fetchHealthData(url: servers[0].url)
+                    }
                 }
                 Section(header: Text("Add a new Domain")) {
                     VStack {
@@ -167,6 +175,8 @@ struct SettingsPage: View {
             .navigationTitle("Settings")
             .refreshable {
                 updateDomains()
+                rest_Health.fetchHealthData(url: servers[0].url)
+
             }
             .alert(
                 "Reset your application",
