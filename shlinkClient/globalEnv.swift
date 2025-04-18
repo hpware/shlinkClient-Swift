@@ -22,7 +22,7 @@ final class GlobalStore: ObservableObject {
     @Published @ObservationIgnored var healthStatus: Bool = false
 
     private init() {
-        self.mainServer = UserDefaults.standard.string(forkey: "shlinkMainServer") ?? ""
+        self.mainServer = UserDefaults.standard.string(forKey: "shlinkMainServer") ?? ""
         self.token = UserDefaults.standard.string(forKey: "shlinkToken") ?? ""
     }
 }
