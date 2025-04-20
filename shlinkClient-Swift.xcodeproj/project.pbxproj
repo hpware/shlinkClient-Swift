@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		890BA1782DB49573001A8606 /* CreateLink.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 890BA16E2DB49573001A8606 /* CreateLink.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		890BA1762DB49573001A8606 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 896A33742DA01399004CC6B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 890BA16D2DB49573001A8606;
+			remoteInfo = CreateLink;
+		};
 		896A338F2DA0139B004CC6B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 896A33742DA01399004CC6B8 /* Project object */;
@@ -23,13 +34,46 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		890BA17D2DB49573001A8606 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				890BA1782DB49573001A8606 /* CreateLink.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		890BA16E2DB49573001A8606 /* CreateLink.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CreateLink.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		896A337C2DA01399004CC6B8 /* shlinkClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shlinkClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896A338E2DA0139B004CC6B8 /* shlinkClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shlinkClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		896A33982DA0139B004CC6B8 /* shlinkClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shlinkClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		890BA1792DB49573001A8606 /* Exceptions for "CreateLink" folder in "CreateLink" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 890BA16D2DB49573001A8606 /* CreateLink */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		890BA16F2DB49573001A8606 /* CreateLink */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				890BA1792DB49573001A8606 /* Exceptions for "CreateLink" folder in "CreateLink" target */,
+			);
+			path = CreateLink;
+			sourceTree = "<group>";
+		};
 		896A337E2DA01399004CC6B8 /* shlinkClient */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = shlinkClient;
@@ -48,6 +92,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		890BA16B2DB49573001A8606 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		896A33792DA01399004CC6B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -78,6 +129,7 @@
 				896A337E2DA01399004CC6B8 /* shlinkClient */,
 				896A33912DA0139B004CC6B8 /* shlinkClientTests */,
 				896A339B2DA0139B004CC6B8 /* shlinkClientUITests */,
+				890BA16F2DB49573001A8606 /* CreateLink */,
 				896A337D2DA01399004CC6B8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +140,7 @@
 				896A337C2DA01399004CC6B8 /* shlinkClient.app */,
 				896A338E2DA0139B004CC6B8 /* shlinkClientTests.xctest */,
 				896A33982DA0139B004CC6B8 /* shlinkClientUITests.xctest */,
+				890BA16E2DB49573001A8606 /* CreateLink.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +148,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		890BA16D2DB49573001A8606 /* CreateLink */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 890BA17A2DB49573001A8606 /* Build configuration list for PBXNativeTarget "CreateLink" */;
+			buildPhases = (
+				890BA16A2DB49573001A8606 /* Sources */,
+				890BA16B2DB49573001A8606 /* Frameworks */,
+				890BA16C2DB49573001A8606 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				890BA16F2DB49573001A8606 /* CreateLink */,
+			);
+			name = CreateLink;
+			packageProductDependencies = (
+			);
+			productName = CreateLink;
+			productReference = 890BA16E2DB49573001A8606 /* CreateLink.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		896A337B2DA01399004CC6B8 /* shlinkClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 896A33A22DA0139B004CC6B8 /* Build configuration list for PBXNativeTarget "shlinkClient" */;
@@ -102,10 +177,12 @@
 				896A33782DA01399004CC6B8 /* Sources */,
 				896A33792DA01399004CC6B8 /* Frameworks */,
 				896A337A2DA01399004CC6B8 /* Resources */,
+				890BA17D2DB49573001A8606 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				890BA1772DB49573001A8606 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				896A337E2DA01399004CC6B8 /* shlinkClient */,
@@ -173,6 +250,9 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					890BA16D2DB49573001A8606 = {
+						CreatedOnToolsVersion = 16.0;
+					};
 					896A337B2DA01399004CC6B8 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -203,11 +283,19 @@
 				896A337B2DA01399004CC6B8 /* shlinkClient */,
 				896A338D2DA0139B004CC6B8 /* shlinkClientTests */,
 				896A33972DA0139B004CC6B8 /* shlinkClientUITests */,
+				890BA16D2DB49573001A8606 /* CreateLink */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		890BA16C2DB49573001A8606 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		896A337A2DA01399004CC6B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +320,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		890BA16A2DB49573001A8606 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		896A33782DA01399004CC6B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,6 +351,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		890BA1772DB49573001A8606 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 890BA16D2DB49573001A8606 /* CreateLink */;
+			targetProxy = 890BA1762DB49573001A8606 /* PBXContainerItemProxy */;
+		};
 		896A33902DA0139B004CC6B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 896A337B2DA01399004CC6B8 /* shlinkClient */;
@@ -269,6 +369,56 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		890BA17B2DB49573001A8606 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5T73F3B4MF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CreateLink/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CreateLink;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yuanhau.shlinkClient.CreateLink;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		890BA17C2DB49573001A8606 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5T73F3B4MF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CreateLink/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CreateLink;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yuanhau.shlinkClient.CreateLink;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		896A33A02DA0139B004CC6B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -533,6 +683,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		890BA17A2DB49573001A8606 /* Build configuration list for PBXNativeTarget "CreateLink" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				890BA17B2DB49573001A8606 /* Debug */,
+				890BA17C2DB49573001A8606 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		896A33772DA01399004CC6B8 /* Build configuration list for PBXProject "shlinkClient-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

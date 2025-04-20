@@ -10,6 +10,14 @@ import Social
 
 class ShareViewController: SLComposeServiceViewController {
 
+    super.viewDidLoad()
+
+    if let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem,
+        let itemProvider = extensionItem.attachments?.first {
+            
+        }
+
+    /*
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
         return true
@@ -26,5 +34,6 @@ class ShareViewController: SLComposeServiceViewController {
         // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
         return []
     }
+    */
 
 }
