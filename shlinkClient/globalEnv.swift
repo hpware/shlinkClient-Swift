@@ -13,16 +13,18 @@ final class GlobalStore: ObservableObject {
             UserDefaults.standard.set(mainServer, forKey: "shlinkMainServer")
         }
     }
+
     @Published @ObservationIgnored var token: String {
         didSet {
             // Save the token whenever it changes
-            UserDefaults.standard.set(token, forKey: "shlinkAuthToken")
+            UserDefaults.standard.set(token, forKey: "shlinkToken")
         }
     }
+
     @Published @ObservationIgnored var healthStatus: Bool = false
 
     private init() {
-        self.mainServer = UserDefaults.standard.string(forKey: "shlinkMainServer") ?? ""
-        self.token = UserDefaults.standard.string(forKey: "shlinkToken") ?? ""
+        mainServer = UserDefaults.standard.string(forKey: "shlinkMainServer") ?? ""
+        token = UserDefaults.standard.string(forKey: "shlinkToken") ?? ""
     }
 }

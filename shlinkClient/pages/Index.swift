@@ -8,7 +8,7 @@ struct IndexPage: View {
         case slug
         case tags
     }
-    
+
     @State private var link = ""
     @State private var customizeSlug = ""
     @State private var more = false
@@ -17,7 +17,7 @@ struct IndexPage: View {
     @State private var currentTag: String = ""
     @Query private var storedLinks: [MLinkModel]
     @FocusState private var focusedField: BaseField?
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -66,25 +66,25 @@ struct IndexPage: View {
                                 "Max Visits Allowed",
                                 text: $currentTag
                             )
-                            
+
                             // HIDE
                             HStack(spacing: 4) {
                                 Button(action: {
-                                    more = false;
+                                    more = false
                                 }) {
-                                    HStack{
+                                    HStack {
                                         Image(systemName: "chevron.up")
                                             .font(.footnote)
                                         Text("Hide")
                                     }
-                                    }
+                                }
                             }
                         } else {
                             HStack(spacing: 4) {
                                 Button(action: {
-                                    more = true;
+                                    more = true
                                 }) {
-                                    HStack{
+                                    HStack {
                                         Image(systemName: "chevron.down")
                                             .font(.footnote)
                                         Text("More options")
@@ -141,7 +141,7 @@ struct IndexPage: View {
         }.refreshable {
             await refreshLinks()
         }
-        /**.dismissKeyboardTap()*/
+        /** .dismissKeyboardTap() */
     }
 
     private func submitLink() {}

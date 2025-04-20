@@ -57,10 +57,10 @@ struct HealthPage: View {
         } message: {
             Text("Server Added")
         }
-        .refreshable{
+        .refreshable {
             refreshAll()
         }
-        /**.dismissKeyboardTap()*/
+        /** .dismissKeyboardTap() */
     }
 
     private func addServer() {

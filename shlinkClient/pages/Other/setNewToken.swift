@@ -12,18 +12,18 @@ struct setNewToken: View {
             List {
                 Section {
                     Text("This is where you can reset & update your token, if you have no idea how to do so, please advise the Shlink docs or an AI. (Just connect to your docker container and type in this command: \n shlink api-key:generate --name=ios_app )")
-                    .padding(.vertical, 8)
+                        .padding(.vertical, 8)
                 }
                 HStack {
                     Text("Your old Token: ")
-                    if oldVisible{
+                    if oldVisible {
                         SecureField("\(globalStore.token)", text: $globalStore.token)
-                    .disabled(true)
+                            .disabled(true)
                     } else {
                         Text("\(globalStore.token)")
                     }
                     Spacer()
-                    Button (
+                    Button(
                         action: {
                             oldVisible = !oldVisible
                         }
@@ -65,9 +65,9 @@ struct setNewToken: View {
                 message: {
                     Text("Make sure the corrent token is entered, if the token is wrong, you can't do any actions other than checking it's status.")
                 }
-            )/**.dismissKeyboardTap()*/
-            /*.alert(
-                "Are you really want to "
-            )*/
+            ) /** .dismissKeyboardTap() */
+        /* .alert(
+             "Are you really want to "
+         ) */
     }
 }

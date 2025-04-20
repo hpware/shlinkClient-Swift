@@ -14,11 +14,11 @@ struct ContentView: View {
                     Image(systemName: "livephoto")
                     Text("Analytics")
                 }
-            /*HealthPage()
-                .tabItem {
-                    Image(systemName: "bolt.heart")
-                    Text("Status")
-                }*/
+            /* HealthPage()
+             .tabItem {
+                 Image(systemName: "bolt.heart")
+                 Text("Status")
+             } */
             SettingsPage()
                 .tabItem {
                     Image(systemName: "gear")
@@ -31,14 +31,12 @@ struct ContentView: View {
 struct DismissKeyboardOnTap: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .onTapGesture
-                {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                        to: nil,
-                        from: nil,
-                        for: nil
-                    )
-                }
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                to: nil,
+                                                from: nil,
+                                                for: nil)
+            }
     }
 }
 

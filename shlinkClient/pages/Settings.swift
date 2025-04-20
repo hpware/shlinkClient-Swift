@@ -67,10 +67,18 @@ struct SettingsPage: View {
                 Section {
                     VStack(alignment: .leading) {
                         if rest_Health.isLoading {
-                            ProgressView()
+                            HStack {
+                                Spacer()
+                                Image(systemName: "xmark.seal.fill")
+                                    .font(.system(size: 40))
+                                VStack {
+                                    ProgressView()
+                                }
+                                Spacer()
+                            }
                             // this is just to point a temp value for the if values to do stuff with. Awesome, no global vars are needed.
                         } else if let status = rest_Health.healthStatus {
-                            HStack{
+                            HStack {
                                 Spacer()
                                 if status.status == "pass" {
                                     Image(systemName: "checkmark.seal.fill")
@@ -80,14 +88,14 @@ struct SettingsPage: View {
                                 } else {
                                     Image(systemName: "xmark.seal.fill")
                                         .font(.system(size: 40))
-                                        .tint(.red)
+                                        .tint(.green)
                                         .foregroundColor(.green)
                                 }
-                                VStack{
-                                    Text("Server Status \(status.status == "pass" ? "OK" : "Failed" )")
-                                        .font(.system(size:20));
+                                VStack {
+                                    Text("Server Status \(status.status == "pass" ? "OK" : "Failed")")
+                                        .font(.system(size: 20))
                                     if let version = status.version {
-                                        Text("Version: \(version)").font(.system(size:15))
+                                        Text("Version: \(version)").font(.system(size: 15))
                                     }
                                 }
                                 Spacer()
@@ -171,12 +179,11 @@ struct SettingsPage: View {
                     .tint(.red)
                 }
             }
-            /**.dismissKeyboardTap()*/
+            /** .dismissKeyboardTap() */
             .navigationTitle("Settings")
             .refreshable {
                 updateDomains()
                 rest_Health.fetchHealthData(url: servers[0].url)
-
             }
             .alert(
                 "Reset your application",

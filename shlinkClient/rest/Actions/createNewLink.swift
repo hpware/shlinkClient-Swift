@@ -58,8 +58,8 @@ class createNewLinkRest: ObservableObject {
         }
 
         let endPoint = domain.hasSuffix("/") ? "rest/v3/short-urls" : "/rest/v3/short-urls"
-        let domainMergePoint = domain + endPoint
-        guard let domainMergePoint = URL(string: domainMergePoint) else {
+        let domainMergePoint2 = domain + endPoint
+        guard let domainMergePoint = URL(string: domainMergePoint2) else {
             errormsg = "There is an error in the process"
             print(errormsg)
             return
