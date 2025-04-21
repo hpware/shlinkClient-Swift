@@ -63,6 +63,13 @@
 			);
 			target = 890BA16D2DB49573001A8606 /* CreateLink */;
 		};
+		89B29A6D2DB615C40088DDBF /* Exceptions for "shlinkClient" folder in "shlinkClient" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 896A337B2DA01399004CC6B8 /* shlinkClient */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -76,6 +83,9 @@
 		};
 		896A337E2DA01399004CC6B8 /* shlinkClient */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				89B29A6D2DB615C40088DDBF /* Exceptions for "shlinkClient" folder in "shlinkClient" target */,
+			);
 			path = shlinkClient;
 			sourceTree = "<group>";
 		};
@@ -549,6 +559,7 @@
 				DEVELOPMENT_TEAM = 5T73F3B4MF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = shlinkClient/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Shlink Manager";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -584,6 +595,7 @@
 				DEVELOPMENT_TEAM = 5T73F3B4MF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = shlinkClient/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Shlink Manager";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

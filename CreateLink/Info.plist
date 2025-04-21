@@ -4,11 +4,15 @@
 <dict>
 	<key>NSExtension</key>
 	<dict>
+		<key>NSExtensionActivationRule</key>
+		<dict/>
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>NSExtensionActivationRule</key>
 			<string>TRUEPREDICATE</string>
 		</dict>
+		<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+		<string>1</string>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
 		<key>NSExtensionPointIdentifier</key>
