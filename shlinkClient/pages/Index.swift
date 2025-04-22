@@ -8,7 +8,7 @@ struct IndexPage: View {
         case slug
         case tags
     }
-
+    
     @State private var link = ""
     @State private var customizeSlug = ""
     @State private var more = false
@@ -22,7 +22,7 @@ struct IndexPage: View {
     @State private var enabledUntil = Date()
     @Query private var storedLinks: [MLinkModel]
     @FocusState private var focusedField: BaseField?
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -106,47 +106,49 @@ struct IndexPage: View {
                                         TextField("", value: $slugLength, formatter: NumberFormatter())
                                         Stepper(
                                             "",
-                                            value: $slugLength
+                                            value: $slugLength,
+                                            in: 4...255 // over 255 the web browser WILL crash, and you won't be able to delete it.
                                         )
                                         .disabled(customizeSlug != "")
-                                }
-                            }.padding(.vertical, 2)
-                            VStack {
-                                // Use datepicker for the iOS picking date thingy.
-                                HStack {
-                                    DatePicker(
-                                        "Enabled Since",
-                                        selection: $enabledFrom,
-                                        /*!
-                                            * .date for date
-                                            * .hourAndMinute for hour and minute duhh
-                                            * .hourMinuteAndSecond for I guess setting a clock app?
-                                         */
-                                        displayedComponents: [.date, .hourAndMinute]
-                                    )
-                                }
-                                Spacer()
-                                HStack  {
-                                    DatePicker(
-                                        "Enabled Until",
-                                        selection: $enabledUntil,
-                                        displayedComponents: [.date, .hourAndMinute]
-                                    )
-                                }
-                            }
-
-                            // HIDE
-                            HStack(spacing: 4) {
-                                Button(action: {
-                                    more = false
-                                }) {
+                                    }
+                                }.padding(.vertical, 2)
+                                VStack {
+                                    // Use datepicker for the iOS picking date thingy.
                                     HStack {
-                                        Image(systemName: "chevron.up")
-                                            .font(.footnote)
-                                        Text("Hide")
+                                        DatePicker(
+                                            "Enabled Since",
+                                            selection: $enabledFrom,
+                                            /*!
+                                             * .date for date
+                                             * .hourAndMinute for hour and minute duhh
+                                             * .hourMinuteAndSecond for I guess setting a clock app?
+                                             */
+                                            displayedComponents: [.date, .hourAndMinute]
+                                        )
+                                    }
+                                    Spacer()
+                                    HStack  {
+                                        DatePicker(
+                                            "Enabled Until",
+                                            selection: $enabledUntil,
+                                            displayedComponents: [.date, .hourAndMinute]
+                                        )
                                     }
                                 }
-                            }
+                                
+                                // HIDE
+                                HStack(spacing: 4) {
+                                    Button(action: {
+                                        more = false
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "chevron.up")
+                                                .font(.footnote)
+                                            Text("Hide")
+                                        }
+                                    }
+                                }
+                            }  
                         } else {
                             HStack(spacing: 4) {
                                 Button(action: {
@@ -169,44 +171,43 @@ struct IndexPage: View {
                             .foregroundColor(.green)
                             .tint(.green)
                     }
-                }
-                .listRowSeparator(.hidden)
-                VStack {
-                    ForEach(storedLinks) {
-                        i in
-                        NavigationLink(destination: getMoreInfo(linkId: "e")) {
-                            VStack(alignment: .leading) {
-                                Text(i.shortURL).font(.headline)
-                            }
-                        }.swipeActions(edge: .trailing) {
-                            Button(role: .destructive) {
-                                disableLink()
-                            } label: {
-                                Text("Disable")
+                    .listRowSeparator(.hidden)
+                    VStack {
+                        ForEach(storedLinks) {
+                            i in
+                            NavigationLink(destination: getMoreInfo(linkId: "e")) {
+                                VStack(alignment: .leading) {
+                                    Text(i.shortURL).font(.headline)
+                                }
+                            }.swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    disableLink()
+                                } label: {
+                                    Text("Disable")
+                                }
                             }
                         }
                     }
-                }
-            }.navigationTitle("Shlink")
-        }.refreshable {
-            await refreshLinks()
-        }
-        /** .dismissKeyboardTap() */
-    }
-
-    private func submitLink() {}
-
-    private func disableLink() {}
-
-    private func addTag() {
-        let tag = currentTag.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !tag.isEmpty && !newLinkTags.contains(tag) {
-            newLinkTags.append(tag)
-            currentTag = ""
+                }.navigationTitle("Shlink")
+            }.refreshable {
+                await refreshLinks()
+            }
         }
     }
-
-    private func removeTag() {}
-
-    private func refreshLinks() {}
+        private func submitLink() {}
+        
+        private func disableLink() {}
+        
+        private func addTag() {
+            let tag = currentTag.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !tag.isEmpty && !newLinkTags.contains(tag) {
+                newLinkTags.append(tag)
+                currentTag = ""
+            }
+        }
+        
+        private func removeTag() {}
+        
+        private func refreshLinks() {}
 }
+
