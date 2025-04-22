@@ -15,6 +15,11 @@ struct IndexPage: View {
     // New links and stuff
     @State private var newLinkTags: [String] = []
     @State private var currentTag: String = ""
+    @State private var slugLength = 0;
+    @State private var maxVisits = 0;
+    @State private var linkTitle = ""
+    @State private var enabledFrom = Date()
+    @State private var enabledUntil = Date()
     @Query private var storedLinks: [MLinkModel]
     @FocusState private var focusedField: BaseField?
 
@@ -41,6 +46,9 @@ struct IndexPage: View {
                                 "Customize Slug",
                                 text: $customizeSlug
                             )
+                            .disabled(
+                                slugLength > 0
+                            )
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
                             .submitLabel(.next)
@@ -56,16 +64,76 @@ struct IndexPage: View {
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
                             .focused($focusedField, equals: .tags)
-                            .submitLabel(more ? .next : .done)
+                            .submitLabel(.next)
+                            .onSubmit (addTag)
+                            
                         }.padding(.bottom, 8)
+                        HStack {
+                            ForEach(newLinkTags, id: \.self) {
+                                tag in
+                                HStack(spacing: 4) {
+                                    Text(tag)
+                                        .font(.footnote)
+                                    Button(action: removeTag) {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .foregroundColor(.gray)
+                                            .font(.footnote)
+                                    }
+                                }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.blue.opacity(0.1))
+                                .cornerRadius(8)
+                            }
+                        }.padding(.vertical, 3)
                         Spacer()
                         if more == true {
                             // MAIN INPUT
-
-                            TextField(
-                                "Max Visits Allowed",
-                                text: $currentTag
-                            )
+                            VStack {
+                                TextField(
+                                    "Link Title",
+                                    text: $linkTitle
+                                )
+                                HStack {
+                                    Text("Max Visits")
+                                    TextField("", value: $maxVisits, formatter: NumberFormatter())
+                                    Stepper(
+                                        "",
+                                        value: $maxVisits
+                                    )
+                                    HStack {
+                                        Text("Slug Length")
+                                        TextField("", value: $slugLength, formatter: NumberFormatter())
+                                        Stepper(
+                                            "",
+                                            value: $slugLength
+                                        )
+                                        .disabled(customizeSlug != "")
+                                }
+                            }.padding(.vertical, 2)
+                            VStack {
+                                // Use datepicker for the iOS picking date thingy.
+                                HStack {
+                                    DatePicker(
+                                        "Enabled Since",
+                                        selection: $enabledFrom,
+                                        /*!
+                                            * .date for date
+                                            * .hourAndMinute for hour and minute duhh
+                                            * .hourMinuteAndSecond for I guess setting a clock app?
+                                         */
+                                        displayedComponents: [.date, .hourAndMinute]
+                                    )
+                                }
+                                Spacer()
+                                HStack  {
+                                    DatePicker(
+                                        "Enabled Until",
+                                        selection: $enabledUntil,
+                                        displayedComponents: [.date, .hourAndMinute]
+                                    )
+                                }
+                            }
 
                             // HIDE
                             HStack(spacing: 4) {
@@ -90,24 +158,6 @@ struct IndexPage: View {
                                         Text("More options")
                                     }
                                 }
-                            }
-                        }
-                        HStack {
-                            ForEach(newLinkTags, id: \.self) {
-                                tag in
-                                HStack(spacing: 4) {
-                                    Text(tag)
-                                        .font(.footnote)
-                                    Button(action: removeTag) {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .foregroundColor(.gray)
-                                            .font(.footnote)
-                                    }
-                                }
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(Color.blue.opacity(0.1))
-                                .cornerRadius(8)
                             }
                         }
                         Button(action: submitLink) {
