@@ -19,6 +19,7 @@ struct createNewLink: Codable, Identifiable {
     var crawlable: Bool
     var forwardParam: Bool
     var useExisting: Bool
+    var tags: [String]?
 
     enum createNewLinkKeys: String, CodingKey {
         case slug

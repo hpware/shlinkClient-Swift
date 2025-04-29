@@ -195,13 +195,23 @@ struct IndexPage: View {
     }
 
     private func submitLink() {
+        if (!currentTag.isEmpty) {
+            addTag()
+        }
+        print(link)
+        print(linkTitle)
+        print(!customizeSlug.isEmpty ? customizeSlug : "")
+        print(newLinkTags)
+        // Creates an await task.
         Task {
             let result = try? await createNewLink(
                 long: link,
                 slug: !customizeSlug.isEmpty ? customizeSlug : "",
+                title: !linkTitle.isEmpty ? linkTitle : "",
                 crawlable: false,
                 forwardParam: false,
-                useExisting: false
+                useExisting: false,
+                tags: newLinkTags
             )
 
             // Reset form if successful
