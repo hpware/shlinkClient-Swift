@@ -259,7 +259,7 @@ struct SettingsPage: View {
     }
 
     // This coverts an array to a json file (btw the Array<T>'s T means it checks if it works with Encodable, and it will work on ANY I mean ANY array.) Ands it points to the temp URL of the newly created file.
-    private func exportJSON<T: Encodable>(path: String, encode: [T]) -> URL {
+    private func exportJSON(path: String, encode: [some Encodable]) -> URL {
         // Creates the encoder via the func JSONEncoder() (super easy to understand)
         let encoder = JSONEncoder()
         // This makes sure the JSON is formatted with proper indentation and line breaks (Comment this out later, this won't be needed)

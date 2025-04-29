@@ -35,7 +35,7 @@ class HealthRest: ObservableObject {
             DispatchQueue.main.async {
                 self?.isLoading = false
 
-                if let error = error {
+                if let error {
                     self?.errorMessage = "Network error: \(error.localizedDescription)"
                     return
                 }
@@ -47,7 +47,7 @@ class HealthRest: ObservableObject {
                     return
                 }
 
-                guard let data = data else {
+                guard let data else {
                     self?.errorMessage = "No data received"
                     return
                 }

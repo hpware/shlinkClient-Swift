@@ -35,7 +35,7 @@ class AnalyticsRest: ObservableObject {
             DispatchQueue.main.async {
                 self?.loadingURLs.remove(urlString)
 
-                if let error = error {
+                if let error {
                     self?.errorMessages[urlString] = "Network error: \(error.localizedDescription)"
                     return
                 }
@@ -47,7 +47,7 @@ class AnalyticsRest: ObservableObject {
                     return
                 }
 
-                guard let data = data else {
+                guard let data else {
                     self?.errorMessages[urlString] = "No data received"
                     return
                 }

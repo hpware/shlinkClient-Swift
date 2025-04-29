@@ -1,5 +1,9 @@
 import Foundation
 
+struct ShortURLPayload: Codable {
+    var shortUrl: String
+}
+
 struct createNewLink: Codable, Identifiable {
     var id = UUID()
     var long: String
@@ -62,6 +66,21 @@ class createNewLinkRest: ObservableObject {
         guard let domainMergePoint = URL(string: domainMergePoint2) else {
             errormsg = "There is an error in the process"
             print(errormsg)
+            return
+        }
+        var request = URLRequest(url: domainMergePoint)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let encoder = JSONEncoder()
+        let payload = ShortURLPayload(shortUrl: "es")
+        do {
+            let data = try encoder.encode(payload)
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("Encoded JSON: \(jsonString)")
+            }
+            request.httpBody = data
+        } catch {
+            print("An error occurred during encoding: \(error)")
             return
         }
     }
