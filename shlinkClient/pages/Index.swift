@@ -195,7 +195,7 @@ struct IndexPage: View {
     }
 
     private func submitLink() {
-        if (!currentTag.isEmpty) {
+        if !currentTag.isEmpty {
             addTag()
         }
         print(link)

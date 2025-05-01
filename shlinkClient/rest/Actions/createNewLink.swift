@@ -1,7 +1,13 @@
 import Foundation
 
 struct ShortURLPayload: Codable {
-    var shortUrl: String
+    let longUrl: String
+    let slug: String?
+    let title: String?
+    let tags: [String]?
+    let crawlable: Bool
+    let forwardQuery: Bool
+    let findIfExists: Bool
 }
 
 struct createNewLink: Codable, Identifiable {
@@ -41,25 +47,15 @@ class createNewLinkRest: ObservableObject {
     @Published var isLoading = false
     @Published var errormsg = ""
 
-    func pushNewLink(_ p: createNewLink?) {
-        // Use _ for intentionally unused components
-        _ = p?.long
-        _ = p?.shortCodeLength
-        _ = p?.title
-        _ = p?.startDate
-        _ = p?.endDate
-        _ = p?.domain
-        _ = p?.maxVisits
-        _ = p?.crawlable
-        _ = p?.forwardParam
-        _ = p?.useExisting
+    func pushNewLink(_ p: createNewLink?) async throws -> Bool {
+        guard let p else { return false }
 
         var domain = ""
-        if p?.domain == nil {
+        if p.domain == nil {
             domain = pullBaseDomain()
         } else {
             // Use ! for value stuff
-            domain = p!.domain!
+            domain = p.domain!
         }
 
         let endPoint = domain.hasSuffix("/") ? "rest/v3/short-urls" : "/rest/v3/short-urls"
@@ -67,13 +63,22 @@ class createNewLinkRest: ObservableObject {
         guard let domainMergePoint = URL(string: domainMergePoint2) else {
             errormsg = "There is an error in the process"
             print(errormsg)
-            return
+            return errormsg
         }
         var request = URLRequest(url: domainMergePoint)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let encoder = JSONEncoder()
-        let payload = ShortURLPayload(shortUrl: "es")
+        let payload = ShortURLPayload(
+            longUrl: p.long,
+            slug: p.slug,
+            title: p.title,
+            tags: p.tags,
+            crawlable: p.crawlable,
+            forwardQuery: p.forwardParam,
+            findIfExists: p.useExisting
+        )
+
         do {
             let data = try encoder.encode(payload)
             if let jsonString = String(data: data, encoding: .utf8) {
@@ -82,7 +87,6 @@ class createNewLinkRest: ObservableObject {
             request.httpBody = data
         } catch {
             print("An error occurred during encoding: \(error)")
-            return
         }
     }
 }
