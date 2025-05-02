@@ -125,7 +125,7 @@ struct SettingsPage: View {
                     }
                     // .padding(.vertical, 8)
                 }
-                Section(header: Text("Your Shlink Instances")) {
+                Section(header: Text("Your domains connected to your instance")) {
                     ForEach(servers) {
                         i in
                         HStack {
@@ -154,8 +154,8 @@ struct SettingsPage: View {
                     .tint(.red)
 
                     // Use item for only an Item, use Items to export items.
-                    ShareLink(item: exportJSON(path: "shlink_manager_export", encode: servers), preview: SharePreview("Export your Shlink Instances to a json file")) {
-                        Label("Export your Shlink Instances", systemImage: "square.and.arrow.up")
+                    ShareLink(item: exportJSON(path: "shlink_manager_export", encode: servers), preview: SharePreview("Your Shlink Configuration, keep this somewhere secure.")) {
+                        Label("Export your Shlink Configuration", systemImage: "square.and.arrow.up")
                     }
                     .foregroundColor(.red)
                     .tint(.red)
